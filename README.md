@@ -2,7 +2,9 @@
 
 > 让 AI 助手访问企业文件这件事变得**可判定、可拦截、可追溯**：每次取数先过权限关卡，拒绝就真的读不到，每一次判定都留下证据。
 
-**在线演示：** https://<你的用户名>.github.io/<仓库名>/
+**在线演示：** https://franci4.github.io/aegisdata/
+
+**代码仓库：** https://github.com/Franci4/aegisdata
 
 ---
 
