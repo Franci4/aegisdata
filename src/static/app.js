@@ -313,6 +313,9 @@
       updateNavCount();
     }
 
+    /* 首屏那次自动判定不算用户操作，不触发滚动 */
+    let userInitiated = false;
+
     function submit(role, fileId, action) {
       const now = new Date();
       const verdict = resolve(role, fileId, action);
@@ -341,8 +344,8 @@
         el.live.textContent = rec.requestId + ' ' + rec.decision + '：' + rec.reason;
       }
 
-      /* 窄屏时结果区在表单下方 */
-      if (window.innerWidth < 1220) {
+      /* 窄屏时结果区在表单下方，滚动过去；但首屏那次自动判定不滚，避免一打开就"跳" */
+      if (userInitiated && window.innerWidth < 1220) {
         el.result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
@@ -350,6 +353,7 @@
     /* ── 事件 ── */
     el.form.addEventListener('submit', function (e) {
       e.preventDefault();
+      userInitiated = true;
       const btn = el.submitBtn;
       btn.disabled = true;
       window.setTimeout(function () {

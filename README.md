@@ -8,6 +8,24 @@
 
 ---
 
+## 界面预览
+
+桌面版（1560px）：
+
+| 访问控制台 | 审计日志 |
+| --- | --- |
+| ![访问控制台](docs/screenshots/screenshot-01-console.png) | ![审计日志](docs/screenshots/screenshot-02-audit.png) |
+
+| 权限规则 | 系统说明 |
+| --- | --- |
+| ![权限规则](docs/screenshots/screenshot-03-rules.png) | ![系统说明](docs/screenshots/screenshot-04-about.png) |
+
+页面同时适配手机（390px），窄屏下侧边栏收为图标条、表单与统计卡自动改为单列：
+
+| 手机 · 控制台 | 手机 · 审计日志 | 手机 · 权限规则 |
+| --- | --- | --- |
+| ![手机控制台](docs/screenshots/screenshot-05-mobile-console.png) | ![手机审计日志](docs/screenshots/screenshot-06-mobile-audit.png) | ![手机权限规则](docs/screenshots/screenshot-07-mobile-rules.png) |
+
 ## 这是什么
 
 本项目使用**虚构企业"星河科技"的模拟数据**，演示 AI 助手访问企业内部文件时的权限控制能力。全部文件内容均为编造的模拟数据，不含任何真实企业机密或真实个人信息。
