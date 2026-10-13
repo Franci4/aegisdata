@@ -1,9 +1,10 @@
 /* 构建单文件版
    把 src/prototype 的四个页面 + src/static 的样式和脚本
    合并成一个自包含的 HTML（hash 路由切页，双击即可打开）。
-   产出两份（内容完全一致，只是文件名不同）：
-     1. index.html        —— 网站入口 / GitHub Pages 首页
-     2. AegisData.html    —— 发给别人时文件名更明确，双击即开
+   产出：
+     1. index.html                   —— 网站入口 / GitHub Pages 首页
+     2. AegisData.html               —— 发给别人时文件名更明确，双击即开
+     3. code/                        —— 干净的可运行代码副本（页面 + static/ + 单文件版）
    用法：node build-single.js
 */
 const fs = require('fs');
@@ -13,6 +14,7 @@ const ROOT = __dirname;
 const SRC = path.join(ROOT, 'src');
 const OUT = path.join(ROOT, 'AegisData.html');
 const OUT_INDEX = path.join(ROOT, 'index.html');
+const CODE = path.join(ROOT, 'code');
 
 const PAGES = [
   { key: 'console', file: 'index.html', title: '访问控制台' },
@@ -121,6 +123,27 @@ ${app}
 fs.writeFileSync(OUT, bundle, 'utf8');
 fs.writeFileSync(OUT_INDEX, bundle, 'utf8');
 
+/* ── 同步一份干净的可运行代码到 code/ ──────────────────────────── */
+function syncCode() {
+  const pairs = [
+    [path.join(SRC, 'prototype', 'index.html'), path.join(CODE, 'index.html')],
+    [path.join(SRC, 'prototype', 'audit.html'), path.join(CODE, 'audit.html')],
+    [path.join(SRC, 'prototype', 'rules.html'), path.join(CODE, 'rules.html')],
+    [path.join(SRC, 'prototype', 'about.html'), path.join(CODE, 'about.html')],
+    [path.join(SRC, 'static', 'style.css'),     path.join(CODE, 'static', 'style.css')],
+    [path.join(SRC, 'static', 'app.js'),        path.join(CODE, 'static', 'app.js')],
+  ];
+  for (const [from, to] of pairs) {
+    fs.mkdirSync(path.dirname(to), { recursive: true });
+    fs.copyFileSync(from, to);
+  }
+  const single = path.join(CODE, '单文件版.html');
+  fs.writeFileSync(single, bundle, 'utf8');
+}
+
+syncCode();
+
 console.log('已生成 ' + path.relative(process.cwd(), OUT));
 console.log('已生成 ' + path.relative(process.cwd(), OUT_INDEX));
+console.log('已同步 code/ 目录');
 console.log('大小 ' + (Buffer.byteLength(bundle, 'utf8') / 1024).toFixed(1) + ' KB');
