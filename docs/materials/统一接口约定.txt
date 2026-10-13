@@ -1,0 +1,34 @@
+我们统一 A 和 B 的接口，避免后续整合时出现函数名称、参数和返回格式不一致的问题。
+
+**1. A 负责的接口**
+
+在 `policy.py` 中实现：
+
+`check_permission(user_role, file_id, action)`
+
+输入：
+- `user_role`：employee / finance / admin
+- `file_id`：F001 / F002 / F003
+- `action`：read / export
+
+返回字典：
+- `decision`：ALLOW / DENY / PENDING_APPROVAL
+- `reason`：判断原因
+
+A 负责权限规则，不需要重新写 Flask 页面。
+
+**2. B 负责的接口**
+
+在 `app.py` 中提供：
+
+`POST /api/access`
+
+接收 `user_role`、`file_id`、`action`，调用 A 的权限函数和受保护文件操作流程，然后返回 `request_id`、`decision`、`reason`、`executed` 等字段。
+
+B 负责前端、Flask 接口、SQLite 审计日志及页面展示，不重复实现权限判断规则。
+
+**3. 安全要求**
+
+DENY 和 PENDING_APPROVAL 必须在实际文件操作前拦截。`executed` 必须反映真实执行情况。未知角色、文件编号或操作类型不得默认允许。
+
+请双方按照以上函数名、参数名和返回格式开发。如果需要修改接口，先共同确认，再同步修改代码和测试。

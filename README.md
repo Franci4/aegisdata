@@ -49,51 +49,49 @@
 
 **审计日志 9 个字段：** `id` / `timestamp` / `request_id` / `user_role` / `file_id` / `action` / `decision` / `reason` / `executed`
 
-## 怎么打开
+## 快速开始
 
-**方式一：单文件版（最简单）**
-直接双击 `AegisData.html`，浏览器打开即用。CSS、脚本、四个页面全部内联在这一个文件里，不依赖任何外部资源，断网也能运行。
+**看效果（最简单）**
+双击 `AegisData.html`，浏览器打开即用。CSS、脚本、四个页面全部内联在这一个文件里，不依赖任何外部资源，断网也能运行。
 
-**方式二：多文件版（开发用）**
-用本地服务打开 `prototype/index.html`：
-
+**本地开发**
 ```bash
 python -m http.server 8000
-# 然后访问 http://localhost:8000/prototype/index.html
+# 访问 http://localhost:8000/src/prototype/index.html
+```
+
+**重新打包单文件版**（改了 `src/` 之后）
+```bash
+node build-single.js
+```
+
+**部署到 GitHub Pages**
+```powershell
+powershell -ExecutionPolicy Bypass -File deploy.ps1 -User Franci4 -Repo aegisdata
 ```
 
 ## 目录结构
 
 ```
 aegisdata/
-├── AegisData.html        单文件版（给人直接打开）
-├── index.html            同上，GitHub Pages 入口
-├── prototype/            多文件版页面（开发用）
-│   ├── index.html        访问控制台
-│   ├── audit.html        审计日志
-│   ├── rules.html        权限规则
-│   └── about.html        系统说明
-├── static/
-│   ├── style.css         全站样式（设计令牌在文件顶部）
-│   └── app.js            共享数据层 + 页面控制器 + hash 路由
-├── build-single.js       把多文件版打包成单文件版
-└── docs/                 页面截图
+├── index.html              网站入口（单文件版，GitHub Pages 首页）
+├── AegisData.html          同上，给别人的文件名更明确
+├── src/                    网站源码
+│   ├── prototype/          四个页面：控制台 / 审计日志 / 权限规则 / 系统说明
+│   └── static/             style.css（设计令牌在顶部）+ app.js（数据层与路由）
+├── docs/                   文档
+│   ├── PRD.md              产品需求文档
+│   ├── 启动说明.md          运行、演示与开发约定
+│   ├── screenshots/        成品截图
+│   └── materials/          规则来源的原始素材
+├── build-single.js         把 src/ 打包成单文件版
+└── deploy.ps1              一键部署到 GitHub Pages
 ```
 
-## 开发说明
+## 与后端对接的位置
 
-改了 `prototype/` 或 `static/` 里的代码后，重新打包单文件版：
-
-```bash
-node build-single.js
-```
-
-会同时生成 `AegisData.html` 和 `index.html` 两份，内容一致。
-
-### 与后端对接的位置
-
-`static/app.js` 中 `resolve()` 是**唯一的判定入口**，目前查的是前端预置的演示数据表 `DEMO_DECISIONS`。
-接入后端统一入口后，整段替换该函数即可，页面层代码不需要改动：
+`src/static/app.js` 中的 `resolve()` 是**唯一的判定入口**，目前查的是前端预置的演示数据表 `DEMO_DECISIONS`。
+接入后端后整段替换该函数即可，页面层代码不需要改动：
 
 ```python
 # policy.py
@@ -117,7 +115,7 @@ POST /api/access
 
 ## 当前进度
 
-第一阶段（企业内部文件与财务数据访问控制）前端初稿已完成。当前判定结果由前端预置演示数据模拟，接入后端策略函数后必须整体移除。
+第一阶段（企业内部文件与财务数据访问控制）前端已完成。判定结果目前由前端预置演示数据模拟，接入后端策略函数后必须整体移除。
 
 ---
 

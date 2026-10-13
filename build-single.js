@@ -1,5 +1,5 @@
 /* 构建单文件版
-   把 prototype 的四个页面 + static/style.css + static/app.js
+   把 src/prototype 的四个页面 + src/static 的样式和脚本
    合并成一个自包含的 HTML（hash 路由切页，双击即可打开）。
    产出两份（内容完全一致，只是文件名不同）：
      1. index.html        —— 网站入口 / GitHub Pages 首页
@@ -10,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname;
+const SRC = path.join(ROOT, 'src');
 const OUT = path.join(ROOT, 'AegisData.html');
 const OUT_INDEX = path.join(ROOT, 'index.html');
 
@@ -76,12 +77,12 @@ function extractMain(html) {
   return rewriteLinks(block.slice(start).trim());
 }
 
-const css = read(path.join(ROOT, 'static', 'style.css'));
-let app = read(path.join(ROOT, 'static', 'app.js'));
+const css = read(path.join(SRC, 'static', 'style.css'));
+let app = read(path.join(SRC, 'static', 'app.js'));
 app = rewriteLinks(app);
 
 const htmls = {};
-for (const p of PAGES) htmls[p.key] = read(path.join(ROOT, 'prototype', p.file));
+for (const p of PAGES) htmls[p.key] = read(path.join(SRC, 'prototype', p.file));
 
 const sidebar = sidebarTemplate(extractSidebar(htmls.console));
 
