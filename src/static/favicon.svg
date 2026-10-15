@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AegisData 品牌标识（矢量）
+     结构：深蓝→青绿渐变盾形，盾面上掠过一道白色波浪线，右上角延伸出飞翼般的尖角。
+     纯矢量，无位图、无背景，任意尺寸清晰。 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 208" width="200" height="208" role="img" aria-label="AegisData">
+  <defs>
+    <linearGradient id="adg" x1="2%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#2b3f9e"/>
+      <stop offset="34%"  stop-color="#2f6fc0"/>
+      <stop offset="66%"  stop-color="#35a7cd"/>
+      <stop offset="100%" stop-color="#4fdcbe"/>
+    </linearGradient>
+
+    <mask id="admask">
+      <rect x="0" y="0" width="200" height="208" fill="#000"/>
+      <!-- 盾形主体：左上圆肩 + 右上飞翼尖角 + 下方收尖 -->
+      <path fill="#fff" d="
+        M20 44
+        C20 26 38 14 62 14
+        C92 14 114 26 132 40
+        C150 54 166 60 182 54
+        C186 53 190 51 194 48
+        C190 62 180 72 166 74
+        C146 77 126 68 106 56
+        C90 46 76 40 62 40
+        C38 40 24 58 24 92
+        C24 138 56 180 100 200
+        C144 180 176 138 176 92
+        C176 58 162 40 138 40
+        C124 40 110 46 94 56
+        C74 68 54 77 34 74
+        C24 72 20 62 20 50
+        Z"/>
+      <!-- 盾面上掠过的白色波浪线 -->
+      <path fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round"
+            d="M192 53
+               C166 72 132 88 99 81
+               C76 76 56 63 40 51"/>
+    </mask>
+  </defs>
+
+  <rect x="0" y="0" width="200" height="208" fill="url(#adg)" mask="url(#admask)"/>
+</svg>

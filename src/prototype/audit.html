@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>审计日志 · AegisData 企业数据安全管理平台</title>
+<link rel="icon" type="image/svg+xml" href="../static/favicon.svg">
 <link rel="stylesheet" href="../static/style.css">
 </head>
 <body data-page="audit">
@@ -11,8 +12,46 @@
 <!-- ══════════ 顶部栏 ══════════ -->
 <header class="top">
   <a class="top__brand" href="#console">
-    <span class="top__logo">
-      <img src="../static/logo-mark.webp" alt="">
+        <span class="top__logo" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 208" width="200" height="208" role="img" aria-label="AegisData">
+  <defs>
+    <linearGradient id="adg" x1="2%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#2b3f9e"/>
+      <stop offset="34%"  stop-color="#2f6fc0"/>
+      <stop offset="66%"  stop-color="#35a7cd"/>
+      <stop offset="100%" stop-color="#4fdcbe"/>
+    </linearGradient>
+
+    <mask id="admask">
+      <rect x="0" y="0" width="200" height="208" fill="#000"/>
+      
+      <path fill="#fff" d="
+        M20 44
+        C20 26 38 14 62 14
+        C92 14 114 26 132 40
+        C150 54 166 60 182 54
+        C186 53 190 51 194 48
+        C190 62 180 72 166 74
+        C146 77 126 68 106 56
+        C90 46 76 40 62 40
+        C38 40 24 58 24 92
+        C24 138 56 180 100 200
+        C144 180 176 138 176 92
+        C176 58 162 40 138 40
+        C124 40 110 46 94 56
+        C74 68 54 77 34 74
+        C24 72 20 62 20 50
+        Z"/>
+      
+      <path fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round"
+            d="M192 53
+               C166 72 132 88 99 81
+               C76 76 56 63 40 51"/>
+    </mask>
+  </defs>
+
+  <rect x="0" y="0" width="200" height="208" fill="url(#adg)" mask="url(#admask)"/>
+</svg>
     </span>
     <span class="top__name">AegisData</span>
   </a>
@@ -28,7 +67,7 @@
     </button>
     <span class="top__user">
       <span class="top__avatar">张</span>
-      <span>
+      <span class="top__who">
         <b>张三</b>
         <span>普通员工</span>
       </span>
