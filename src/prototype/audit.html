@@ -12,45 +12,56 @@
 <!-- ══════════ 顶部栏 ══════════ -->
 <header class="top">
   <a class="top__brand" href="#console">
-        <span class="top__logo" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 208" width="200" height="208" role="img" aria-label="AegisData">
+                <span class="top__logo" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="AegisData">
   <defs>
-    <linearGradient id="adg" x1="2%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"   stop-color="#2b3f9e"/>
-      <stop offset="34%"  stop-color="#2f6fc0"/>
-      <stop offset="66%"  stop-color="#35a7cd"/>
-      <stop offset="100%" stop-color="#4fdcbe"/>
+    <linearGradient id="adg" x1="6%" y1="2%" x2="94%" y2="98%">
+      <stop offset="0%"   stop-color="#2b46a8"/>
+      <stop offset="36%"  stop-color="#2f7ec6"/>
+      <stop offset="70%"  stop-color="#3db6cd"/>
+      <stop offset="100%" stop-color="#52dcbe"/>
     </linearGradient>
-
-    <mask id="admask">
-      <rect x="0" y="0" width="200" height="208" fill="#000"/>
-      
-      <path fill="#fff" d="
-        M20 44
-        C20 26 38 14 62 14
-        C92 14 114 26 132 40
-        C150 54 166 60 182 54
-        C186 53 190 51 194 48
-        C190 62 180 72 166 74
-        C146 77 126 68 106 56
-        C90 46 76 40 62 40
-        C38 40 24 58 24 92
-        C24 138 56 180 100 200
-        C144 180 176 138 176 92
-        C176 58 162 40 138 40
-        C124 40 110 46 94 56
-        C74 68 54 77 34 74
-        C24 72 20 62 20 50
-        Z"/>
-      
-      <path fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round"
-            d="M192 53
-               C166 72 132 88 99 81
-               C76 76 56 63 40 51"/>
-    </mask>
+    <linearGradient id="adl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#6ea6e6"/>
+      <stop offset="100%" stop-color="#8cefdc"/>
+    </linearGradient>
   </defs>
 
-  <rect x="0" y="0" width="200" height="208" fill="url(#adg)" mask="url(#admask)"/>
+  
+  <path fill="none" stroke="url(#adl)" stroke-opacity=".5"
+        stroke-width="7" stroke-linecap="round" stroke-linejoin="round"
+        d="M52 78
+           Q52 62 66 59
+           Q82 56 96 66
+           Q80 50 62 50
+           Q44 50 42 78
+           Q40 110 56 136
+           Q72 162 100 178
+           Q128 162 144 136
+           Q160 110 158 78
+           Q156 50 138 50
+           Q124 50 112 58"/>
+  
+  <path fill="none" stroke="url(#adl)" stroke-opacity=".45"
+        stroke-width="4.5" stroke-linecap="round"
+        d="M76 52 Q106 40 138 38 Q166 36 186 27"/>
+
+  
+  <path fill="none" stroke="url(#adg)" stroke-width="19" stroke-linecap="round"
+        d="M62 52 Q96 40 128 38 Q160 36 188 24"/>
+
+  
+  <path fill="none" stroke="url(#adg)"
+        stroke-width="15" stroke-linecap="round" stroke-linejoin="round"
+        d="M34 80
+           Q34 48 66 44
+           Q94 40 112 58
+           Q94 64 78 72
+           Q64 78 52 78
+           Q50 108 60 132
+           Q76 160 100 180
+           Q124 160 140 132
+           Q150 108 148 78"/>
 </svg>
     </span>
     <span class="top__name">AegisData</span>

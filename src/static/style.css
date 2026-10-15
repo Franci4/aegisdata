@@ -221,7 +221,8 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 .card__head {
   display: flex; align-items: center; justify-content: space-between;
   gap: 14px; flex-wrap: wrap;
-  padding: 14px 18px;
+  min-height: 52px;
+  padding: 0 18px;
   border-bottom: 1px solid var(--line-soft);
 }
 .card__head h2 {
