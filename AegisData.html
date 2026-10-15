@@ -103,23 +103,24 @@ a { color: inherit; text-decoration: none; }
 
 :focus-visible { outline: 2px solid var(--brand-2); outline-offset: 2px; border-radius: 4px; }
 
-/* ══════════ 顶部栏 ══════════ */
+/* ══════════ 顶部栏（深蓝） ══════════ */
 .top {
   position: sticky; top: 0; z-index: 30;
   height: var(--topbar-h);
   display: flex; align-items: center; gap: 14px;
   padding: 0 20px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  color: #eaf1fb;
+  background: linear-gradient(180deg, #24406e 0%, #1b3358 55%, #172c4c 100%);
+  border-bottom: 1px solid #12233d;
 }
 
 .top__brand { display: flex; align-items: center; gap: 9px; flex: 0 0 auto; }
 .top__logo { width: 30px; height: 29px; flex: 0 0 30px; }
 .top__logo img, .top__logo svg { width: 100%; height: 100%; object-fit: contain; }
-.top__name { font-size: 19px; font-weight: 650; letter-spacing: -.35px; color: #16233c; }
-.top__divider { width: 1px; height: 22px; background: var(--line); flex: 0 0 1px; }
+.top__name { font-size: 19px; font-weight: 650; letter-spacing: -.35px; color: #fff; }
+.top__divider { width: 1px; height: 22px; background: rgba(255, 255, 255, .22); flex: 0 0 1px; }
 .top__title {
-  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  font-size: 14.5px; font-weight: 500; color: rgba(255, 255, 255, .82);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
@@ -132,27 +133,28 @@ a { color: inherit; text-decoration: none; }
   background: transparent; cursor: default;
   transition: background .15s;
 }
-.top__user:hover { background: var(--surface-hi); }
+.top__user:hover { background: rgba(255, 255, 255, .1); }
 .top__avatar {
   width: 30px; height: 30px; flex: 0 0 30px;
   display: grid; place-items: center;
   border-radius: 50%;
   color: #fff; font-size: 13px; font-weight: 600;
-  background: linear-gradient(150deg, #3b82f6, #1d4ed8);
+  background: linear-gradient(150deg, #4c8bf5, #2563eb);
+  border: 1px solid rgba(255, 255, 255, .28);
 }
-.top__user b { display: block; font-size: 13px; font-weight: 600; line-height: 1.25; }
-.top__user span { display: block; font-size: 11.5px; color: var(--ink-3); line-height: 1.25; }
-.top__chev { width: 14px; height: 14px; color: var(--ink-3); }
+.top__user b { display: block; font-size: 13px; font-weight: 600; line-height: 1.25; color: #fff; }
+.top__user span { display: block; font-size: 11.5px; color: rgba(255, 255, 255, .7); line-height: 1.25; }
+.top__chev { width: 14px; height: 14px; color: rgba(255, 255, 255, .75); }
 
 .iconbtn {
   width: 34px; height: 34px; flex: 0 0 34px;
   display: grid; place-items: center;
   border: 0; border-radius: 9px;
-  background: transparent; color: var(--ink-2);
+  background: transparent; color: rgba(255, 255, 255, .85);
   cursor: pointer;
   transition: background .15s, color .15s;
 }
-.iconbtn:hover { background: var(--surface-hi); color: var(--ink); }
+.iconbtn:hover { background: rgba(255, 255, 255, .13); color: #fff; }
 .iconbtn svg { width: 18px; height: 18px; }
 
 /* ══════════ 布局 ══════════ */
@@ -162,7 +164,7 @@ a { color: inherit; text-decoration: none; }
   width: var(--sidebar-w); flex: 0 0 var(--sidebar-w);
   display: flex; flex-direction: column; gap: 4px;
   padding: 14px 12px;
-  background: var(--surface);
+  background: #f7f9fc;                 /* 略深于内容区，但保持轻盈 */
   border-right: 1px solid var(--line);
 }
 
@@ -193,9 +195,9 @@ a { color: inherit; text-decoration: none; }
 }
 .nav__item.is-active .nav__count { color: var(--brand); background: #fff; }
 
-.sidebar__foot { margin-top: auto; padding: 10px; }
-.sidebar__foot b { display: block; font-size: 11.5px; color: var(--ink-2); }
-.sidebar__foot span { display: block; font-size: 10.5px; color: var(--ink-3); }
+.sidebar__foot { margin-top: auto; padding: 12px 11px 6px; border-top: 1px solid var(--line); }
+.sidebar__foot b { display: block; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.sidebar__foot span { display: block; margin-top: 3px; font-size: 11px; color: var(--ink-3); line-height: 1.6; }
 
 .main {
   flex: 1 1 auto; min-width: 0;
@@ -375,8 +377,9 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 @media (max-width: 440px)  { .scenes__list { grid-template-columns: minmax(0, 1fr); } }
 
 .scene {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 12px 13px;
+  display: flex; align-items: center; gap: 11px;
+  padding: 15px 16px;
+  min-height: 64px;
   border-radius: var(--r);
   border: 1px solid var(--line);
   background: var(--surface);
@@ -386,19 +389,19 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 .scene:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
 .scene:active { transform: translateY(0); }
 .scene__ico {
-  width: 30px; height: 30px; flex: 0 0 30px;
+  width: 34px; height: 34px; flex: 0 0 34px;
   display: grid; place-items: center;
   border-radius: 50%; color: #fff;
 }
-.scene__ico svg { width: 16px; height: 16px; }
+.scene__ico svg { width: 18px; height: 18px; }
 .scene__ico--green  { background: #12b76a; }
 .scene__ico--red    { background: #f04438; }
 .scene__ico--orange { background: #f79009; }
 .scene__ico--blue   { background: #2f6bf0; }
 .scene__ico--violet { background: #7f56d9; }
 .scene__text { min-width: 0; }
-.scene__text b { display: block; font-size: 12.8px; font-weight: 600; }
-.scene__text span { display: block; font-size: 11.5px; color: var(--ink-3); line-height: 1.45; }
+.scene__text b { display: block; font-size: 13.5px; font-weight: 600; }
+.scene__text span { display: block; font-size: 12px; color: var(--ink-3); line-height: 1.5; }
 .scene.is-allow   { border-color: var(--allow-line);   background: #fbfefc; }
 .scene.is-deny    { border-color: var(--deny-line);    background: #fffbfa; }
 .scene.is-pending { border-color: var(--pending-line); background: #fffdf8; }
@@ -483,14 +486,17 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 }
 .result__note { font-size: 12.5px; color: var(--ink-3); margin-left: auto; }
 
-/* ══════════ 两栏 ══════════ */
+/* ══════════ 两栏（等宽，保证底部对齐） ══════════ */
 .cols {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
   margin-top: 18px;
 }
+.cols > .card { display: flex; flex-direction: column; margin-top: 0; }
+.cols > .card > .tablewrap,
+.cols > .card > .matrix { flex: 1 1 auto; }
 @media (max-width: 1080px) { .cols { grid-template-columns: minmax(0, 1fr); } }
 
 /* ══════════ 表格 ══════════ */
@@ -544,39 +550,47 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 
 .empty { padding: 32px 18px; text-align: center; font-size: 13px; color: var(--ink-3); }
 
-/* ══════════ 权限矩阵（对勾/叉） ══════════ */
-.matrix { padding: 0; }
+/* ══════════ 权限矩阵（对勾/叉，与右侧记录表等高对齐） ══════════ */
+.matrix { padding: 0; display: flex; flex-direction: column; }
 .matrix__row {
   display: grid;
-  grid-template-columns: 150px repeat(3, minmax(0, 1fr)) 108px;
-  align-items: center;
+  grid-template-columns: minmax(112px, 1.35fr) repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  flex: 1 1 auto;
 }
+.matrix__row--head { flex: 0 0 auto; }
 .matrix__row--head span {
-  font-size: 12px; font-weight: 600; color: var(--ink-3);
-  padding: 9px 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12.5px; font-weight: 600; color: var(--ink-2);
+  padding: 12px 14px;
+  min-height: 44px;
   background: var(--surface-soft);
   border-bottom: 1px solid var(--line);
-  text-align: center;
 }
-.matrix__row--head span:first-child { text-align: left; }
+.matrix__row--head span:first-child { justify-content: flex-start; }
 .matrix__row:not(.matrix__row--head) > span {
-  padding: 11px 12px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 14px;
+  font-size: 13px; color: var(--ink);
   border-bottom: 1px solid var(--line-soft);
-  font-size: 13px; text-align: center;
 }
-.matrix__row:not(.matrix__row--head) > span:first-child { text-align: left; font-weight: 500; }
+.matrix__row:not(.matrix__row--head) > span:first-child {
+  justify-content: flex-start;
+  font-weight: 500; color: var(--ink-2);
+}
 .matrix__row:last-child > span { border-bottom: 0; }
 
 .mk { display: inline-grid; place-items: center; }
-.mk svg { width: 19px; height: 19px; }
+.mk svg { width: 20px; height: 20px; }
 .mk--yes  { color: #17b26a; }
 .mk--no   { color: #f04438; }
 .mk--half { color: #f79009; }
 
 @media (max-width: 620px) {
-  .matrix__row { grid-template-columns: 104px repeat(3, minmax(0, 1fr)) 62px; }
-  .matrix__row--head span, .matrix__row:not(.matrix__row--head) > span { padding: 9px 5px; font-size: 11.5px; }
-  .matrix__row:not(.matrix__row--head) > span:last-child { font-size: 10.5px; }
+  .matrix__row { grid-template-columns: minmax(92px, 1.2fr) repeat(3, minmax(0, 1fr)); }
+  .matrix__row--head span { padding: 10px 6px; font-size: 11.5px; min-height: 40px; }
+  .matrix__row:not(.matrix__row--head) > span { padding: 12px 6px; font-size: 11.5px; }
+  .mk svg { width: 17px; height: 17px; }
 }
 
 /* ══════════ 侧栏小卡 ══════════ */
@@ -844,6 +858,14 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
   .form { padding: 15px; }
   .scenes { padding: 4px 15px 16px; }
   .card__head { padding: 13px 15px; }
+  /* 窄屏统计卡更紧凑，避免一屏只放一张 */
+  .stats { gap: 10px; }
+  .stat { padding: 12px 13px; gap: 10px; align-items: center; }
+  .stat__ico { width: 32px; height: 32px; flex: 0 0 32px; }
+  .stat__ico svg { width: 17px; height: 17px; }
+  .stat dd { font-size: 19px; }
+  .scene { padding: 12px 13px; min-height: 58px; }
+  .matrix__row--head span { min-height: 38px; }
 }
 
 @media (max-width: 520px) { .drawer { width: 100%; } }
@@ -1189,52 +1211,48 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
           <h2>角色权限矩阵</h2>
           <a class="card__link" href="#rules">查看详情 →</a>
         </div>
-        <div class="matrix">
+                <div class="matrix">
           <div class="matrix__row matrix__row--head">
             <span>资源类型</span>
             <span>普通员工</span>
             <span>财务人员</span>
             <span>管理员</span>
-            <span>说明</span>
           </div>
           <div class="matrix__row">
             <span>F001 普通业务报告</span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="muted">全员可读</span>
           </div>
           <div class="matrix__row">
             <span>F002 内部财务报告</span>
-            <span class="mk mk--no" title="读取被拒绝">
+            <span class="mk mk--no" title="读取被拒绝，导出需审批">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 15.8 15.8 8.2M15.8 15.8 8.2 8.2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>
             </span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="muted">导出需审批</span>
           </div>
           <div class="matrix__row">
             <span>F003 敏感工资表</span>
-            <span class="mk mk--no" title="读取被拒绝">
+            <span class="mk mk--no" title="读取与导出均被拒绝">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 15.8 15.8 8.2M15.8 15.8 8.2 8.2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>
             </span>
-            <span class="mk mk--no" title="读取被拒绝">
+            <span class="mk mk--no" title="读取与导出均被拒绝">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8.2 15.8 15.8 8.2M15.8 15.8 8.2 8.2" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg>
             </span>
-            <span class="mk mk--yes" title="允许">
+            <span class="mk mk--yes" title="读取与导出均允许">
               <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.4l2.8 2.8L16.4 9.6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
-            <span class="muted">仅管理员可读</span>
           </div>
         </div>
         <ul class="legend" style="border-top:1px solid var(--line-soft)">
