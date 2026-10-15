@@ -1,54 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AegisData 品牌标识（矢量）
-     结构：① 盾形主描边（右侧留开口）② 顶部飘带向右抽出尖角 ③ 内侧浅色呼应形成层次
+     结构：盾形上缘即一道波浪——自左上肩线上扬成波峰，向右抽出长尖角后折回，
+           沿盾形内缘下行至右侧中部收笔（右侧开口）；内部一条浅蓝细描边呼应形成层次。
      纯矢量，无位图、无背景，任意尺寸清晰。 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="AegisData">
   <defs>
-    <linearGradient id="adg" x1="6%" y1="2%" x2="94%" y2="98%">
-      <stop offset="0%"   stop-color="#2b46a8"/>
-      <stop offset="36%"  stop-color="#2f7ec6"/>
-      <stop offset="70%"  stop-color="#3db6cd"/>
-      <stop offset="100%" stop-color="#52dcbe"/>
+    <linearGradient id="adg" x1="0%" y1="10%" x2="88%" y2="100%">
+      <stop offset="0%"   stop-color="#2b3f9e"/>
+      <stop offset="28%"  stop-color="#2f6cc0"/>
+      <stop offset="60%"  stop-color="#37a3c9"/>
+      <stop offset="100%" stop-color="#4ad2c0"/>
     </linearGradient>
-    <linearGradient id="adl" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"   stop-color="#6ea6e6"/>
-      <stop offset="100%" stop-color="#8cefdc"/>
+    <linearGradient id="adl" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%"   stop-color="#6fa8ec"/>
+      <stop offset="100%" stop-color="#93f0dd"/>
     </linearGradient>
   </defs>
 
-  <!-- 内侧浅色：盾形内缘 -->
-  <path fill="none" stroke="url(#adl)" stroke-opacity=".5"
-        stroke-width="7" stroke-linecap="round" stroke-linejoin="round"
-        d="M52 78
-           Q52 62 66 59
-           Q82 56 96 66
-           Q80 50 62 50
-           Q44 50 42 78
-           Q40 110 56 136
-           Q72 162 100 178
-           Q128 162 144 136
-           Q160 110 158 78
-           Q156 50 138 50
-           Q124 50 112 58"/>
-  <!-- 顶部浅色呼应 -->
-  <path fill="none" stroke="url(#adl)" stroke-opacity=".45"
-        stroke-width="4.5" stroke-linecap="round"
-        d="M76 52 Q106 40 138 38 Q166 36 186 27"/>
+  <!-- 主形：上缘为波浪的盾形轮廓，右侧开口 -->
+  <path fill="none" stroke="url(#adg)" stroke-width="20"
+        stroke-linecap="round" stroke-linejoin="round"
+        d="M64 44
+           C86 20 110 18 128 32
+           C146 46 162 50 178 46
+           L193 43
+           L172 58
+           C154 68 138 64 124 52
+           C104 36 84 46 76 68
+           Q60 106 76 138
+           Q92 168 118 178
+           Q148 166 156 138
+           Q166 106 152 80"/>
 
-  <!-- 顶部飘带：左端细、右端尖，向右上抽出 -->
-  <path fill="none" stroke="url(#adg)" stroke-width="19" stroke-linecap="round"
-        d="M62 52 Q96 40 128 38 Q160 36 188 24"/>
-
-  <!-- 盾形主描边：右侧留开口 -->
-  <path fill="none" stroke="url(#adg)"
-        stroke-width="15" stroke-linecap="round" stroke-linejoin="round"
-        d="M34 80
-           Q34 48 66 44
-           Q94 40 112 58
-           Q94 64 78 72
-           Q64 78 52 78
-           Q50 108 60 132
-           Q76 160 100 180
-           Q124 160 140 132
-           Q150 108 148 78"/>
+  <!-- 内部浅描边：形成通透层次 -->
+  <path fill="none" stroke="url(#adl)" stroke-opacity=".68" stroke-width="9"
+        stroke-linecap="round" stroke-linejoin="round"
+        d="M82 64
+           Q66 102 80 134
+           Q94 160 116 168
+           Q140 158 146 132
+           Q154 104 142 84"/>
 </svg>
