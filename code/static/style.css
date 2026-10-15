@@ -692,6 +692,7 @@ body[data-single] .page.is-shown { display: flex; flex-direction: column; flex: 
 }
 
 .page .card + .card { margin-top: 18px; }
+.page .cols > .card + .card { margin-top: 0; }
 
 /* ══════════ 详情抽屉 ══════════ */
 .drawer {
