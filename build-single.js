@@ -81,8 +81,9 @@ function extractMain(html) {
 }
 
 const faviconPng = fs.readFileSync(path.join(SRC, 'static', 'aegisdata-logo.png')).toString('base64');
+const headerLogoPng = fs.readFileSync(path.join(SRC, 'static', 'aegisdata-logo-header.png')).toString('base64');
 const css = read(path.join(SRC, 'static', 'style.css'))
-  .replace('url("./aegisdata-logo.png")', 'url("data:image/png;base64,' + faviconPng + '")');
+  .replace('url("./aegisdata-logo-header.png")', 'url("data:image/png;base64,' + headerLogoPng + '")');
 let app = read(path.join(SRC, 'static', 'app.js'));
 app = rewriteLinks(app);
 
@@ -149,6 +150,7 @@ function syncCode() {
     [path.join(SRC, 'static', 'style.css'),     path.join(CODE, 'static', 'style.css')],
     [path.join(SRC, 'static', 'app.js'),        path.join(CODE, 'static', 'app.js')],
     [path.join(SRC, 'static', 'aegisdata-logo.png'), path.join(CODE, 'static', 'aegisdata-logo.png')],
+    [path.join(SRC, 'static', 'aegisdata-logo-header.png'), path.join(CODE, 'static', 'aegisdata-logo-header.png')],
     [path.join(SRC, 'static', 'logo.svg'),        path.join(CODE, 'static', 'logo.svg')],
   ];
   for (const [from, to] of pairs) {
