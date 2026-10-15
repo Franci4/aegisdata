@@ -202,7 +202,20 @@
       : '<span class="exec exec--no">'  + ICON_EXEC_NO  + '未执行</span>';
   }
 
-  /* 历史表格行（控制台与审计页共用） */
+  /* 只显示 时:分:秒 —— 控制台表格列较窄 */
+  function shortTime(t) {
+    const s = String(t || '');
+    const sp = s.indexOf(' ');
+    return sp >= 0 ? s.slice(sp + 1) : s;
+  }
+
+  function todayCount() {
+    const d = new Date();
+    const today = stamp(d).slice(0, 10);
+    return store.all().filter(function (r) { return String(r.time).slice(0, 10) === today; }).length;
+  }
+
+  /* 审计日志表格行（完整 8 列） */
   function historyRow(r) {
     return '<tr' + (r.isNew ? ' class="is-new"' : '') + '>' +
       '<td class="mono c-time">' + esc(r.time) + '</td>' +
@@ -216,13 +229,48 @@
     '</tr>';
   }
 
-  function emptyRow(text) {
-    return '<tr><td colspan="8" class="empty">' + text + '</td></tr>';
+  /* 控制台「最近访问记录」：时间 / 用户 / 资源 / 操作 / 结果 */
+  function recentRow(r) {
+    return '<tr' + (r.isNew ? ' class="is-new"' : '') + '>' +
+      '<td class="mono c-time">' + esc(shortTime(r.time)) + '</td>' +
+      '<td class="c-user">' + esc(ROLE_SHORT[r.role] || r.role) + '</td>' +
+      '<td class="c-res" title="' + esc(FILES[r.fileId] || r.fileId) + '">' +
+        esc(FILES[r.fileId] || r.fileId) + '</td>' +
+      '<td>' + esc(ACTIONS[r.action] || r.action) + '</td>' +
+      '<td>' + decisionTag(r.decision) + '</td>' +
+    '</tr>';
+  }
+
+  function emptyRow(text, cols) {
+    return '<tr><td colspan="' + (cols || 8) + '" class="empty">' + text + '</td></tr>';
   }
 
   function updateNavCount() {
     const n = $('navCount');
     if (n) n.textContent = String(store.all().length);
+  }
+
+  /* ── 轻提示 ── */
+  let toastTimer = null;
+  function toast(message, decision) {
+    let t = $('toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'toast';
+      t.className = 'toast';
+      t.innerHTML = '<svg viewBox="0 0 24 24" fill="none">' +
+        '<path d="M5 12.6l4.4 4.4L19 7.4" stroke="currentColor" stroke-width="2.4" ' +
+        'stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>';
+      document.body.appendChild(t);
+    }
+    t.className = 'toast' + (decision === 'DENY' ? ' is-deny'
+                           : decision === 'PENDING_APPROVAL' ? ' is-pending' : '');
+    t.lastChild.textContent = message;
+    /* 强制重排后再加 is-show，保证过渡生效 */
+    void t.offsetWidth;
+    t.classList.add('is-show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () { t.classList.remove('is-show'); }, 2600);
   }
 
   /* ══════════ 6. 控制台页 ══════════ */
@@ -256,6 +304,8 @@
       resultNote:  $('resultNote'),
       historyBody: $('historyBody'),
       search:      $('search'),
+      statToday:   $('statToday'),
+      statLogs:    $('statLogs'),
       live:        $('live')
     };
 
@@ -298,17 +348,24 @@
     }
 
     function renderHistory() {
-      const kw = (el.search.value || '').trim().toLowerCase();
+      const kw = (el.search && el.search.value || '').trim().toLowerCase();
       const all = store.all();
       const rows = all.filter(function (r) {
         if (!kw) return true;
         return (r.requestId + ' ' + r.fileId + ' ' + r.role + ' ' + r.decision)
           .toLowerCase().indexOf(kw) !== -1;
-      }).slice(0, 10);
+      }).slice(0, 6);
 
       el.historyBody.innerHTML = rows.length
-        ? rows.map(historyRow).join('')
-        : emptyRow(all.length ? '没有匹配的记录' : '暂无操作记录，提交一次访问申请试试');
+        ? rows.map(recentRow).join('')
+        : emptyRow(all.length ? '没有匹配的记录' : '暂无访问记录，提交一次访问申请试试', 5);
+
+      /* 概览统计 */
+      if (el.statToday) el.statToday.textContent = String(todayCount());
+      if (el.statLogs)  el.statLogs.textContent  = String(all.length);
+      if (all.length) {
+        Array.prototype.forEach.call(document.querySelectorAll('.foot__time'), function (n) { n.textContent = all[0].time; });
+      }
 
       updateNavCount();
     }
@@ -344,6 +401,15 @@
         el.live.textContent = rec.requestId + ' ' + rec.decision + '：' + rec.reason;
       }
 
+      if (userInitiated) {
+        const tip = {
+          ALLOW:            '操作允许 · 文件操作已执行',
+          DENY:             '操作拒绝 · 文件操作未执行',
+          PENDING_APPROVAL: '待审批 · 审批完成前不得执行'
+        };
+        toast(tip[rec.decision] || rec.decision, rec.decision);
+      }
+
       /* 窄屏时结果区在表单下方，滚动过去；但首屏那次自动判定不滚，避免一打开就"跳" */
       if (userInitiated && window.innerWidth < 1220) {
         el.result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -371,7 +437,7 @@
       });
     });
 
-    el.search.addEventListener('input', renderHistory);
+    if (el.search) el.search.addEventListener('input', renderHistory);
 
     /* ── 首次进入：补四条演示记录（已存在记录则不重复播种） ── */
     if (store.all().length === 0) {
@@ -607,88 +673,54 @@
     };
   }
 
-  /* ══════════ 8. hash 路由 ══════════
-     多文件版：每个链接指向独立页面（#console → index.html）。
-     单文件版：四个页面区块都在同一个文档里，由这里切换显示。
-     ------------------------------------------------ */
+  /* ══════════ 8. 页面初始化 ══════════
+   多文件版：一个文档就是一个页面，按 body[data-page] 初始化。
+   单文件版：四个页面区块同时在文档里（由 CSS radio 切换显示），
+             因此四个都要初始化；各自只操作自己区块内的元素。
+   ------------------------------------------------ */
 
   const ROUTES = ['console', 'audit', 'rules', 'about'];
 
-  function currentRoute() {
+  function routeFromHash() {
     const h = (window.location.hash || '').replace(/^#/, '');
     return ROUTES.indexOf(h) !== -1 ? h : 'console';
   }
 
-  function isSingleFile() {
-    return !!(document.body.dataset.single && document.querySelector('[data-page-section]'));
-  }
-
-  function activate(route) {
-    document.body.dataset.page = route;
-
-    Array.prototype.forEach.call(document.querySelectorAll('[data-page-section]'), function (sec) {
-      sec.hidden = (sec.dataset.pageSection !== route);
+  /* 单文件版：四个页面区块同在一个文档，明確切换 is-shown */
+  function showPage(route) {
+    Array.prototype.forEach.call(document.querySelectorAll('.page'), function (s) {
+      const m = String(s.className).match(/page--(\w+)/);
+      const on = !!(m && m[1] === route);
+      if (on) { s.classList.add('is-shown'); } else { s.classList.remove('is-shown'); }
+      s.style.display = on ? 'flex' : 'none';
     });
-
-    Array.prototype.forEach.call(document.querySelectorAll('.nav__item[data-nav]'), function (a) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-nav]'), function (a) {
       const on = a.dataset.nav === route;
       a.classList.toggle('is-active', on);
       if (on) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); }
     });
-
     window.scrollTo(0, 0);
   }
 
-  function initSection(route) {
-    if (route === 'console') {
-      if (!window.__aegis.console) window.__aegis.console = initConsole();
-      else window.__aegis.console.refresh();
-    } else if (route === 'audit') {
-      if (!window.__aegis.audit) window.__aegis.audit = initAudit();
-      else window.__aegis.audit.refresh();
-    }
-  }
-
-  /* ══════════ 9. 启动 ══════════ */
-
   function boot() {
-    const single = isSingleFile();
     updateNavCount();
 
-    if (!single) {
-      /* 多文件版：当前文档就是当前页，直接初始化 */
-      const page = document.body.dataset.page || '';
-      if (page === 'console') initConsole();
-      else if (page === 'audit') initAudit();
+    if (document.body.dataset.single) {
+      /* 单文件版：初始化全部区块，并按 hash 切页 */
+      if ($('requestForm')) initConsole();
+      if ($('auditBody')) initAudit();
+
+      if (!window.location.hash) {
+        try { window.history.replaceState(null, '', '#console'); } catch (e) { /* 忽略 */ }
+      }
+      window.addEventListener('hashchange', function () { showPage(routeFromHash()); });
+      showPage(routeFromHash());
       return;
     }
-
-    /* 单文件版：按 hash 切页 */
-    if (!window.location.hash) {
-      try { window.history.replaceState(null, '', '#console'); } catch (e) { /* 忽略 */ }
-    }
-
-    Array.prototype.forEach.call(document.querySelectorAll('.nav__item[data-nav]'), function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        const route = a.dataset.nav;
-        if (currentRoute() === route) {
-          activate(route);
-        } else {
-          window.location.hash = route;
-        }
-      });
-    });
-
-    window.addEventListener('hashchange', function () {
-      const route = currentRoute();
-      activate(route);
-      initSection(route);
-    });
-
-    const first = currentRoute();
-    activate(first);
-    initSection(first);
+    /* 多文件版 */
+    const page = document.body.dataset.page || '';
+    if (page === 'console') initConsole();
+    else if (page === 'audit') initAudit();
   }
 
   window.__aegis = window.__aegis || {};

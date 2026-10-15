@@ -25,9 +25,9 @@ const PAGES = [
 
 const read = (p) => fs.readFileSync(p, 'utf8');
 
-/* 取出「侧边栏 + 主区域」，其余（head / script 标签）由本脚本统一生成 */
+/* 取出「顶部栏 + 侧边栏 + 主区域」，其余（head / script 标签）由本脚本统一生成 */
 function extractBodyBlock(html) {
-  const start = html.indexOf('<aside class="sidebar">');
+  const start = html.indexOf('<header class="top">');
   const end = html.indexOf('<script src=');
   if (start < 0 || end < 0 || end <= start) {
     throw new Error('body 结构未匹配，无法提取内容块');
@@ -35,7 +35,14 @@ function extractBodyBlock(html) {
   return html.slice(start, end).trim();
 }
 
-/* 侧边栏在所有页面是同一份，单独保留一份并做 hash 链接改写 */
+/* 顶部栏与侧边栏在所有页面是同一份，各保留一份做 hash 链接改写 */
+function extractTopbar(html) {
+  const block = extractBodyBlock(html);
+  const start = block.indexOf('<header class="top">');
+  const end = block.indexOf('</header>') + '</header>'.length;
+  return block.slice(start, end);
+}
+
 function extractSidebar(html) {
   const block = extractBodyBlock(html);
   const start = block.indexOf('<aside class="sidebar">');
@@ -51,32 +58,26 @@ function rewriteLinks(html) {
     .replace(/href="about\.html"/g, 'href="#about"');
 }
 
-const navLinks = {
-  console: '<a class="nav__item is-active" href="#console" data-nav="console">',
-  audit:   '<a class="nav__item" href="#audit" data-nav="audit">',
-  rules:   '<a class="nav__item" href="#rules" data-nav="rules">',
-  about:   '<a class="nav__item" href="#about" data-nav="about">',
-};
-
-/* 侧边栏里把 is-active 去掉，改由脚本按 hash 控制 */
-function sidebarTemplate(sidebar) {
-  let out = rewriteLinks(sidebar);
+/* 侧边栏与顶部栏里去掉写死的选中态，改由脚本按 hash 控制 */
+function shellTemplate(html) {
+  let out = rewriteLinks(html);
   out = out.replace(/<a class="nav__item is-active" href="#(console|audit|rules|about)"[^>]*>/g,
-    (m, key) => navLinks[key].replace(' is-active', ''));
-  /* 补 data-nav，便于脚本高亮 */
-  out = out.replace(/<a class="nav__item" href="#(console|audit|rules|about)"/g,
-    (m, key) => '<a class="nav__item" href="#' + key + '" data-nav="' + key + '"');
-  /* aria-current 交给脚本 */
+    (m, key) => '<a class="nav__item" href="#' + key + '" data-nav="' + key + '">');
   out = out.replace(/\s+aria-current="page"/g, '');
   return out;
 }
 
-/* 每页的「主区域」内容 */
+/* 每页的「主区域」内容（去掉重复的 shell，只留 .main 内部） */
 function extractMain(html) {
   const block = extractBodyBlock(html);
   const start = block.indexOf('<div class="main">');
   if (start < 0) throw new Error('未找到 .main');
-  return rewriteLinks(block.slice(start).trim());
+  const main = block.slice(start).trim();
+  /* 去掉最外层 <div class="main"> ... </div>，由单文件版统一包裹 */
+  const inner = main
+    .replace(/^<div class="main">/, '')
+    .replace(/<\/div>\s*$/, '');
+  return rewriteLinks(inner);
 }
 
 const css = read(path.join(SRC, 'static', 'style.css'));
@@ -86,31 +87,42 @@ app = rewriteLinks(app);
 const htmls = {};
 for (const p of PAGES) htmls[p.key] = read(path.join(SRC, 'prototype', p.file));
 
-const sidebar = sidebarTemplate(extractSidebar(htmls.console));
+const topbar = shellTemplate(extractTopbar(htmls.console));
+let sidebar = shellTemplate(extractSidebar(htmls.console));
 
-const sections = PAGES.map((p, i) => {
+const sections = PAGES.map((p) => {
   const main = extractMain(htmls[p.key]);
-  const hidden = i === 0 ? '' : ' hidden';
-  return `<div class="page" data-page-section="${p.key}"${hidden}>\n${main}\n</div>`;
+    const shown = p.key === 'console' ? ' is-shown' : '';
+  return `    <div class="page page--${p.key}${shown}" id="${p.key}">\n${main}\n    </div>`;
 }).join('\n\n');
 
-const bundle = `<!DOCTYPE html>
+/* 单文件版：把 logo 与 favicon 内联成 data URI，保证不依赖任何外部文件 */
+const logoPath = path.join(SRC, 'static', 'logo-mark.webp');
+const logoData = 'data:image/webp;base64,' + fs.readFileSync(logoPath).toString('base64');
+const faviconUrl = logoData;
+
+let bundle = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AegisData · 企业数据安全管理平台</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 27 7.5v8.7c0 6.6-4.5 11.6-11 13.8-6.5-2.2-11-7.2-11-13.8V7.5L16 3Z' fill='%231e40af'/%3E%3Cpath d='M11 16.2l3.4 3.4L21.5 13' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="${faviconUrl}">
 <style>
 ${css}
 </style>
 </head>
-<body data-page="console" data-single="1">
+<body data-page="console" data-single="1" class="single">
+
+${topbar}
+
+<div class="shell">
 
 ${sidebar}
 
-<div class="pages">
+  <div class="main">
 ${sections}
+  </div>
 </div>
 
 <script>
@@ -119,6 +131,10 @@ ${app}
 </body>
 </html>
 `;
+
+/* 页面里的 logo 引用改成内联 data URI */
+bundle = bundle.split('../static/logo-mark.webp').join(logoData);
+
 
 fs.writeFileSync(OUT, bundle, 'utf8');
 fs.writeFileSync(OUT_INDEX, bundle, 'utf8');
@@ -132,6 +148,7 @@ function syncCode() {
     [path.join(SRC, 'prototype', 'about.html'), path.join(CODE, 'about.html')],
     [path.join(SRC, 'static', 'style.css'),     path.join(CODE, 'static', 'style.css')],
     [path.join(SRC, 'static', 'app.js'),        path.join(CODE, 'static', 'app.js')],
+    [path.join(SRC, 'static', 'logo-mark.webp'), path.join(CODE, 'static', 'logo-mark.webp')],
   ];
   for (const [from, to] of pairs) {
     fs.mkdirSync(path.dirname(to), { recursive: true });

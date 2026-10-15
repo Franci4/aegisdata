@@ -8,89 +8,85 @@
 </head>
 <body data-page="about">
 
-<aside class="sidebar">
-  <a class="brand" href="#console">
-    <div class="brand__mark" aria-hidden="true">
-      <svg viewBox="0 0 32 32" fill="none">
-        <path d="M16 3 27 7.5v8.7c0 6.6-4.5 11.6-11 13.8-6.5-2.2-11-7.2-11-13.8V7.5L16 3Z"
-              stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M11 16.2l3.4 3.4L21.5 13" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <div class="brand__text">
-      <b>AegisData</b>
-      <span>企业数据安全管理平台</span>
-    </div>
+<!-- ══════════ 顶部栏 ══════════ -->
+<header class="top">
+  <a class="top__brand" href="#console">
+    <span class="top__logo">
+      <img src="../static/logo-mark.webp" alt="">
+    </span>
+    <span class="top__name">AegisData</span>
   </a>
+  <span class="top__divider"></span>
+  <span class="top__title">企业数据安全管理平台</span>
 
-  <nav class="nav" aria-label="主导航">
-    <p class="nav__group">数据访问</p>
-    <a class="nav__item" href="#console">
-      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M10 2.5 17 5.5v4.3c0 3.6-2.8 6.4-7 7.7-4.2-1.3-7-4.1-7-7.7V5.5L10 2.5Z"
-              stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <div class="top__right">
+    <button class="iconbtn" type="button" aria-label="通知">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M18 8.5a6 6 0 1 0-12 0c0 5-2 6.5-2 6.5h16s-2-1.5-2-6.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M13.7 19a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
-      <span>访问控制台</span>
-    </a>
-    <a class="nav__item" href="#audit">
-      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <rect x="3" y="3.5" width="14" height="13" rx="2.5" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M3 7.5h14M7.5 11h5M7.5 13.8h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </button>
+    <span class="top__user">
+      <span class="top__avatar">张</span>
+      <span>
+        <b>张三</b>
+        <span>普通员工</span>
+      </span>
+      <svg class="top__chev" viewBox="0 0 20 20" fill="none">
+        <path d="M6 8.5l4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span>审计日志</span>
-      <i class="nav__count" id="navCount">0</i>
-    </a>
-
-    <p class="nav__group">策略与说明</p>
-    <a class="nav__item" href="rules.html">
-      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <rect x="2.8" y="3.2" width="14.4" height="13.6" rx="2.2" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M2.8 7.6h14.4M8 7.6v9.2" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <span>权限规则</span>
-    </a>
-    <a class="nav__item is-active" href="about.html" aria-current="page">
-      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M10 9v4.4M10 6.6h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <span>系统说明</span>
-    </a>
-  </nav>
-
-  <div class="sidebar__foot">
-    <div class="stage">
-      <span class="stage__dot"></span>
-      <div>
-        <b>第一阶段 · 演示环境</b>
-        <span>全部为虚构数据，不含真实企业信息</span>
-      </div>
-    </div>
+    </span>
   </div>
-</aside>
+</header>
 
-<div class="main">
+<div class="shell">
 
-  <header class="topbar">
-    <div class="topbar__head">
-      <nav class="topbar__crumbs" aria-label="面包屑">
+  <!-- ══════════ 侧边导航 ══════════ -->
+  <aside class="sidebar">
+    <nav class="nav" aria-label="主导航">
+      <p class="nav__group">数据访问</p>
+      <a class="nav__item" href="#console" data-nav="console">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-8.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 20.5v-5.2h5v5.2" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+        <span>访问控制台</span>
+      </a>      <a class="nav__item" href="#audit" data-nav="audit">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="4" y="3.5" width="16" height="17" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 8.5h6M7.5 12h9M7.5 15.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <span>审计日志</span>
+        <i class="nav__count" id="navCount">0</i>
+      </a>      <a class="nav__item" href="#rules" data-nav="rules">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3.5l7.5 3v5.6c0 4.3-3 7.7-7.5 9.4-4.5-1.7-7.5-5.1-7.5-9.4V6.5l7.5-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>权限规则</span>
+      </a>      <a class="nav__item is-active" href="#about" data-nav="about" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 11v5.2M12 7.9h.01" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </svg>
+        <span>系统说明</span>
+      </a>
+      <p class="nav__group">策略与说明</p>
+    </nav>
+
+    <div class="sidebar__foot">
+      <b>AegisData</b>
+      <span>让数据访问更安全、更可控</span>
+    </div>
+  </aside>
+
+  <!-- ══════════ 主区域 ══════════ -->
+  <div class="main">
+
+
+      <section class="hero">
+      <nav class="crumbs" aria-label="面包屑">
         <span>策略与说明</span><span class="sep">/</span><b>系统说明</b>
       </nav>
       <h1>系统说明</h1>
       <p>AegisData 让 AI 助手访问企业文件这件事变得<strong>可判定、可拦截、可追溯</strong>：每次取数先过权限关卡，拒绝就真的读不到，每一次判定都留下证据。</p>
-    </div>
-    <div class="topbar__side">
-      <span class="chip">第一阶段进行中</span>
-      <div class="whoami">
-        <span class="whoami__avatar">H</span>
-        <div>
-          <b>hgy</b>
-          <span>操作员</span>
-        </div>
-      </div>
-    </div>
-  </header>
+    </section>
 
   <div class="grid">
 
@@ -176,7 +172,7 @@
             </thead>
             <tbody>
               <tr>
-                <td><b>演示页面</b> <span class="mono">#console / style.css / app.js</span></td>
+                <td><b>演示页面</b> <span class="mono">src/prototype/ + src/static/</span></td>
                 <td>hgy</td>
                 <td>角色、文件、操作的选择控件与结果展示区，只呈现不判断</td>
               </tr>
@@ -291,11 +287,11 @@
         <div class="doclist">
           <div class="doclist__item">
             <span class="doclist__ico"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 10.2l2.3 2.3 4.1-4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div><b>演示页面初稿（四页）</b><span class="mono">prototype/#console · #audit · rules.html · about.html</span></div>
+            <div><b>演示页面初稿（四页）</b><span class="mono">src/prototype/ 四个页面</span></div>
           </div>
           <div class="doclist__item">
             <span class="doclist__ico"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 10.2l2.3 2.3 4.1-4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div><b>样式与交互</b><span class="mono">static/style.css · static/app.js</span></div>
+            <div><b>样式与交互</b><span class="mono">src/static/style.css · src/static/app.js</span></div>
           </div>
           <div class="doclist__item">
             <span class="doclist__ico"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.2" stroke="currentColor" stroke-width="1.5"/><path d="M6.8 10.2l2.3 2.3 4.1-4.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -323,8 +319,28 @@
         </p>
       </section>
     </div>
+  
+
+    <!-- 页脚 -->
+    <footer class="foot">
+      <span class="foot__left">
+        <span class="foot__status"><span class="foot__pulse"></span>策略引擎在线</span>
+        <span class="foot__sep">|</span>
+        <span>最后更新：<span class="foot__time">—</span></span>
+      </span>
+      <span class="foot__ver">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3.5l7.5 3v5.6c0 4.3-3 7.7-7.5 9.4-4.5-1.7-7.5-5.1-7.5-9.4V6.5l7.5-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        </svg>
+        AegisData v1.0.0
+      </span>
+    </footer>
   </div>
 </div>
+
+
+
+<p class="sr-only" id="live" role="status" aria-live="polite"></p>
 
 <script src="../static/app.js"></script>
 </body>
