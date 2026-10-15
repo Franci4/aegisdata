@@ -102,17 +102,17 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; gap: 14px;
   padding: 0 20px;
   color: var(--ink);
-  background: #fff;
+  background: #f9f9f9;
   border-bottom: 1px solid var(--line);
 }
 
 .top__brand { display: flex; align-items: center; gap: 0; flex: 0 0 auto; }
-.top__logo { width: 136px; height: 36px; flex: 0 0 136px; display: block; background: #fff url("./aegisdata-logo.png") center 64% / cover no-repeat; }
+.top__logo { width: 136px; height: 36px; flex: 0 0 136px; display: block; background: #f9f9f9 url("./aegisdata-logo.png") center 64% / cover no-repeat; }
 .top__logo img, .top__logo svg { display: none; }
 .top__name { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .top__divider { width: 1px; height: 22px; background: var(--line); flex: 0 0 1px; }
 .top__title {
-  font-size: 14.5px; font-weight: 500; color: var(--ink-2);
+  font-size: 14.5px; font-weight: 500; color: var(--ink);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
