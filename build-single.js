@@ -96,9 +96,9 @@ const sections = PAGES.map((p) => {
   return `    <div class="page page--${p.key}${shown}" id="${p.key}">\n${main}\n    </div>`;
 }).join('\n\n');
 
-/* 单文件版：把 favicon 内联成 data URI（矢量，不依赖任何外部文件） */
-const faviconSvg = read(path.join(SRC, 'static', 'favicon.svg')).replace(/\s*\n\s*/g, '');
-const faviconUrl = 'data:image/svg+xml,' + encodeURIComponent(faviconSvg);
+/* 单文件版：把品牌图片内联成 data URI，不依赖外部文件 */
+const faviconPng = fs.readFileSync(path.join(SRC, 'static', 'aegisdata-logo.png')).toString('base64');
+const faviconUrl = 'data:image/png;base64,' + faviconPng;
 
 let bundle = `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -106,7 +106,7 @@ let bundle = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AegisData · 企业数据安全管理平台</title>
-<link rel="icon" type="image/svg+xml" href="${faviconUrl}">
+<link rel="icon" type="image/png" href="${faviconUrl}">
 <style>
 ${css}
 </style>
@@ -147,7 +147,7 @@ function syncCode() {
     [path.join(SRC, 'prototype', 'about.html'), path.join(CODE, 'about.html')],
     [path.join(SRC, 'static', 'style.css'),     path.join(CODE, 'static', 'style.css')],
     [path.join(SRC, 'static', 'app.js'),        path.join(CODE, 'static', 'app.js')],
-    [path.join(SRC, 'static', 'favicon.svg'),     path.join(CODE, 'static', 'favicon.svg')],
+    [path.join(SRC, 'static', 'aegisdata-logo.png'), path.join(CODE, 'static', 'aegisdata-logo.png')],
     [path.join(SRC, 'static', 'logo.svg'),        path.join(CODE, 'static', 'logo.svg')],
   ];
   for (const [from, to] of pairs) {
