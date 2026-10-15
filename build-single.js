@@ -80,7 +80,9 @@ function extractMain(html) {
   return rewriteLinks(inner);
 }
 
-const css = read(path.join(SRC, 'static', 'style.css'));
+const faviconPng = fs.readFileSync(path.join(SRC, 'static', 'aegisdata-logo.png')).toString('base64');
+const css = read(path.join(SRC, 'static', 'style.css'))
+  .replace('url("./aegisdata-logo.png")', 'url("data:image/png;base64,' + faviconPng + '")');
 let app = read(path.join(SRC, 'static', 'app.js'));
 app = rewriteLinks(app);
 
@@ -97,7 +99,6 @@ const sections = PAGES.map((p) => {
 }).join('\n\n');
 
 /* 单文件版：把品牌图片内联成 data URI，不依赖外部文件 */
-const faviconPng = fs.readFileSync(path.join(SRC, 'static', 'aegisdata-logo.png')).toString('base64');
 const faviconUrl = 'data:image/png;base64,' + faviconPng;
 
 let bundle = `<!DOCTYPE html>
